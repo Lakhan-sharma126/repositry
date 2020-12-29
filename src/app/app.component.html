@@ -1,0 +1,97 @@
+<div class="container-fluid">
+<form [formGroup]="registerForm" >
+<div class="row">
+  <div class="col-md-6">
+    <label>Select Food Trucks</label>
+    <select formControlName="truck" [ngClass]="{ 'is-invalid': submitted && f.truck.errors }"  class="form-control">
+      <option value="">Selected Food Trucks</option>
+      <option> Chinese food – Block A</option>
+      <option>Sandwiches – Block D</option>
+        <option>Patties and burgers – Block G</option>
+        <option> Coffee, tea and cakes – barakhamba Road in front of metro station</option>
+        <option>India food – Rajma, subji, roti, chawal, - KG Marg in front of British council</option>
+        <option>Chaat – Block N</option>
+        <option>Chinese food – in front of Mandi house</option>
+        <option> Chaat – near Shankar Market</option>
+        <option>Patties and burgers – Block P</option>
+        <option>Chinese food – Near Regal Cinema</option>
+    </select>
+  </div>
+  <div class="col-md-2">
+  <label>Open Time</label>
+    <input type="time" formControlName="opentime" [ngClass]="{ 'is-invalid': submitted && f.opentime.errors }" class="form-control">
+  </div>
+  <div class="col-md-2">
+    <label>Closed Time</label>
+    <input type="time" formControlName="closetime" [ngClass]="{ 'is-invalid': submitted && f.closetime.errors }" class="form-control">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8"></div>
+  <div class="col-md-1">
+    <button class="btn  btn-block mt-3  btn-secondary" (click)="onReset()">Reset</button>
+  </div>
+  <div class="col-md-1">
+    <button class="btn btn-primary btn-block mt-3" (click)="onSubmit()">Submit</button>
+  </div>
+</div>
+</form>
+<form [formGroup]="searchForm">
+<div class="row  mt-5">
+  <div class="col-md-2">
+    <input type="text" placeholder="Search" [(ngModel)]="term" formControlName="term" class="form-control">
+  </div>
+</div>
+</form>
+<div class="row mt-1">
+  <div class="col-md-10">
+    <table class="table table-bordered table-hover">
+     <thead>
+       <tr>
+         <th>Sr.No</th>
+         <th>Food Name</th>
+         <th>Open Time</th>
+         <th>Closed Time</th>
+         <th>Action</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr *ngFor="let item of arr|filter:term;let i = index" >
+         <td>{{i+1}}</td>
+         <td>{{item.truck}}</td>
+         <td>{{item.opentime}}</td>
+         <td>{{item.closetime}}</td>
+         <td>
+          <i class="fa fa-pencil text-info fnt17"  (click)="edit(item,i)"></i>
+          <i class="fa fa-trash-o text-danger ml-3 fnt17" (click)="delete(i)" ></i>
+          </td>
+       </tr>
+     </tbody>
+    </table>
+  </div>
+</div>
+<form [formGroup]="googlemapsForm">
+<div class="row mt-5">
+  <div class="col-md-6">
+    <label>Select Location For Google Maps</label>
+    <select formControlName="search"   class="form-control">
+      <option *ngFor="let option of formtypesadd; index as i" (click)="mapselect(option)"  value="{{option.Title}}">{{option.Title}}</option>
+  
+    </select>
+  </div>
+</div>
+</form>
+<div class="row mt-2 mb-5">
+  <div class="col-md-10">
+    <agm-map 
+    [latitude]="latitude" 
+    [longitude]="longitude" 
+     >
+      <agm-marker 
+      [latitude]="latitude" 
+      [longitude]="longitude"></agm-marker>
+    </agm-map>
+  </div>
+</div>
+</div>
