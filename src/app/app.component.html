@@ -1,10 +1,10 @@
-<div class="container-fluid">
+<div class="container-fluid mt-3">
 <form [formGroup]="registerForm" >
 <div class="row">
   <div class="col-md-6">
     <label>Select Food Trucks</label>
     <select formControlName="truck" [ngClass]="{ 'is-invalid': submitted && f.truck.errors }"  class="form-control">
-      <option value="">Selected Food Trucks</option>
+      <option value="" selected>Selected Food Trucks</option>
       <option> Chinese food – Block A</option>
       <option>Sandwiches – Block D</option>
         <option>Patties and burgers – Block G</option>
@@ -18,12 +18,16 @@
     </select>
   </div>
   <div class="col-md-2">
-  <label>Open Time</label>
-    <input type="time" formControlName="opentime" [ngClass]="{ 'is-invalid': submitted && f.opentime.errors }" class="form-control">
+  <label>Opening Time</label>
+    <input  type="time" formControlName="opentime" [ngClass]="{ 'is-invalid': submitted && f.opentime.errors }" class="form-control">
   </div>
   <div class="col-md-2">
-    <label>Closed Time</label>
-    <input type="time" formControlName="closetime" [ngClass]="{ 'is-invalid': submitted && f.closetime.errors }" class="form-control">
+    <label>Closing Time</label>
+    <input    type="time" formControlName="closetime" [ngClass]="{ 'is-invalid': submitted && f.closetime.errors }" class="form-control">
+  </div>
+  <div class="col-md-2 ps">
+    <label>System Time</label>
+    <p id="demo"></p>
   </div>
 </div>
 
@@ -39,7 +43,7 @@
 </form>
 <form [formGroup]="searchForm">
 <div class="row  mt-5">
-  <div class="col-md-2">
+  <div class="col-md-3">
     <input type="text" placeholder="Search" [(ngModel)]="term" formControlName="term" class="form-control">
   </div>
 </div>
@@ -51,8 +55,9 @@
        <tr>
          <th>Sr.No</th>
          <th>Food Name</th>
-         <th>Open Time</th>
-         <th>Closed Time</th>
+         <th>Opening Time</th>
+         <th>Closing Time</th>
+         <th>Food Truck Status</th>
          <th>Action</th>
        </tr>
      </thead>
@@ -62,6 +67,7 @@
          <td>{{item.truck}}</td>
          <td>{{item.opentime}}</td>
          <td>{{item.closetime}}</td>
+         <td [ngClass]="(item.status=='Open')?'text-info':'text-danger'">{{item.status}}</td>
          <td>
           <i class="fa fa-pencil text-info fnt17"  (click)="edit(item,i)"></i>
           <i class="fa fa-trash-o text-danger ml-3 fnt17" (click)="delete(i)" ></i>
@@ -72,25 +78,17 @@
   </div>
 </div>
 <form [formGroup]="googlemapsForm">
-<div class="row mt-5">
-  <div class="col-md-6">
-    <label>Select Location For Google Maps</label>
-    <select formControlName="search"   class="form-control">
-      <option *ngFor="let option of formtypesadd; index as i" (click)="mapselect(option)"  value="{{option.Title}}">{{option.Title}}</option>
-  
-    </select>
-  </div>
-</div>
+
 </form>
-<div class="row mt-2 mb-5">
-  <div class="col-md-10">
+<div class="row mt-5 mb-5">
+  <div class="col-md-10" *ngIf="mapvariable">
     <agm-map 
     [latitude]="latitude" 
     [longitude]="longitude" 
      >
-      <agm-marker 
-      [latitude]="latitude" 
-      [longitude]="longitude"></agm-marker>
+      <agm-marker *ngFor = "let post of arr|filter:term;let i = index"
+      [latitude]="post.latitude" 
+      [longitude]="post.longitude"></agm-marker>
     </agm-map>
   </div>
 </div>

@@ -10,5 +10,10 @@ label
  cursor: pointer!important;
 }
 agm-map {
-    height: 300px;
+    height: 400px;
+}
+.ps
+{
+    position: relative;
+    top:20px;
 }
